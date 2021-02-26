@@ -13,7 +13,8 @@ rexgen_direct_root = os.path.join(os.path.dirname(os.path.dirname(os.path.dirnam
 cols = ['reactants', 'products', 'product_smiles', 'product_smiles_sani', 'rank (10 if not found)'] + ['pred{}'.format(i) for i in range(10)] + ['rank (10 if not found) sani'] + ['pred{} sani'.format(i+1) for i in range(10)]
 df_rankpred = pd.read_csv(os.path.join(rexgen_direct_root, 'rank_diff_wln/model-core16-500-3-max150-direct-useScores/test.cbond_detailed_2400000.eval_by_smiles'), sep="\t",header=None, names=cols) 
 
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 print(tf.__version__)
 import math, sys, random
 from collections import Counter
@@ -188,7 +189,7 @@ def analyze_reaction(react, product=None, guessed_prod=None, clearmap=False, att
             w = int(dpa * (point_max.x - point_min.x))
             h = int(dpa * (point_max.y - point_min.y))
             
-            drawer.SetScale(w, h, point_min, point_max)
+            drawer.SetScale(w, h, point_min, point_max, mol)
             return drawer
 
 

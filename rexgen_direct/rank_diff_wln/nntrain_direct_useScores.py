@@ -1,5 +1,6 @@
 from __future__ import print_function
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 from nn import linearND, linear
 from mol_graph_direct_useScores import atom_fdim as adim, bond_fdim as bdim, max_nb, smiles2graph
 from models import *
