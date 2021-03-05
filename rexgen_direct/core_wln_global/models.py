@@ -1,7 +1,7 @@
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
-from .mol_graph import max_nb
-from .nn import *
+from mol_graph import max_nb
+from nn import *
 
 def rcnn_wl_last(graph_inputs, batch_size, hidden_size, depth, training=True):
     '''This function performs the WLN embedding (local, no attention mechanism)'''

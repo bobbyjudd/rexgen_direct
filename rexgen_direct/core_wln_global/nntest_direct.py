@@ -1,9 +1,9 @@
 from __future__ import print_function
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
-from .nn import linearND, linear
-from .models import *
-from .ioutils_direct import *
+from nn import linearND, linear
+from models import *
+from ioutils_direct import *
 import math, sys, random
 from collections import Counter
 from optparse import OptionParser
@@ -11,6 +11,7 @@ from functools import partial
 import threading
 from multiprocessing import Queue
 import os
+from functools import reduce
 
 '''
 Script for testing the core finder model and outputting predictions.
@@ -44,9 +45,9 @@ depth = int(opts.depth)
 detailed = bool(opts.detailed)
 
 if opts.rich_feat:
-    from .mol_graph_rich import atom_fdim as adim, bond_fdim as bdim, max_nb, smiles2graph_list as _s2g
+    from mol_graph_rich import atom_fdim as adim, bond_fdim as bdim, max_nb, smiles2graph_list as _s2g
 else:
-    from .mol_graph import atom_fdim as adim, bond_fdim as bdim, max_nb, smiles2graph_list as _s2g
+    from mol_graph import atom_fdim as adim, bond_fdim as bdim, max_nb, smiles2graph_list as _s2g
 
 smiles2graph_batch = partial(_s2g, idxfunc=lambda x:x.GetIntProp('molAtomMapNumber') - 1)
 
