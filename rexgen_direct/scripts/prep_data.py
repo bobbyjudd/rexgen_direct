@@ -43,6 +43,19 @@ def get_changed_bonds(rxn_smi):
 
     return bond_changes
 
+def process_patent_list(fpath):
+    with open(fpath, 'r') as fid_in, open(fpath + '.proc', 'w') as fid_out, open(fpath + '.error', 'w') as err_out:
+        for line in tqdm(fid_in):
+            if line.startswith('ReactionSmiles'):
+                continue
+            rxn_smi = line.strip().split('\t')[0]
+            try:
+                bond_changes = get_changed_bonds(rxn_smi)
+            except:
+                err_out.write(rxn_smi)
+                continue
+
+            fid_out.write('{} {}\n'.format(rxn_smi, ';'.join(['{}-{}-{}'.format(x[0], x[1], x[2]) for x in bond_changes])))
 
 def process_file(fpath):
     with open(fpath, 'r') as fid_in, open(fpath + '.proc', 'w') as fid_out:
@@ -63,7 +76,9 @@ if __name__ == '__main__':
         print(get_changed_bonds(rxn_smi))
 
     # Process files
-    process_file('../data/train.txt')
-    process_file('../data/valid.txt')
-    process_file('../data/test.txt')
-    process_file('../data/test_human.txt')
+    
+    #process_file('../data/train.txt')
+    #process_file('../data/valid.txt')
+    #process_file('../data/test.txt')
+    #process_file('../data/test_human.txt')
+    process_patent_list('../data/1976_Sep2016_USPTOgrants_smiles.rsmi')
