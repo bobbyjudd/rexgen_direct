@@ -188,7 +188,7 @@ t.start()
 it, sum_acc, sum_err = 0, 0.0, 0.0
 accNK = 0.; accNK0 = 0.; accNK1 = 0.; accNK2 = 0.; accNK3 = 0.
 bo_to_index  = {0.0: 0, 1.0:1, 2.0:2, 3.0:3, 1.5:4}
-bindex_to_o = {val:key for key, val in bo_to_index.iteritems()}
+bindex_to_o = {val:key for key, val in bo_to_index.items()}
 nbos = len(bo_to_index)
 try:
     while not coord.should_stop():
