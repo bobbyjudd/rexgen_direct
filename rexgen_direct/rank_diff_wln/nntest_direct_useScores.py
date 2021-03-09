@@ -11,6 +11,7 @@ from multiprocessing import Queue, Pool
 import time
 import rdkit.Chem as Chem
 import os
+from functools import reduce
 
 
 parser = OptionParser()
@@ -94,7 +95,7 @@ def read_data(coord):
             cbonds = []  # list of (x, y, t, v)
             for i in range(1, len(cand_split), 2):
                 x,y,t = cand_split[i].split('-')
-                x,y = tuple(sorted([int(x) - 1, int(y) - 1]))
+                x,y = tuple(sorted([int(float(x)) - 1, int(float(y)) - 1]))
 
                 # record candidate bond as (atom num, atom num, bond order, likelihood score)
                 cbonds.append((x,y,float(t),float(cand_split[i+1])))
