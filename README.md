@@ -44,7 +44,7 @@ Get bond predictions - includes reactivity scores in output
 
     python nntest_direct_useScores.py --test ../data/custom_filtered.rsmi.proc --cand ../core_wln_global/model-300-3-direct/new_data.cbond_detailed --hidden 500 --depth 3 --ncand 1500   --ncore 16 --model model-core16-500-3-max150-direct-useScores --checkpoint ckpt-2400000 --verbose 1 > model-core16-500-3-max150-direct-useScores/new_data.cbond_detailed_2400000
     
-    python ../scripts/eval_by_smiles.py --gold ../data/1976_Sep2016_USPTOgrants_smiles.rsmi.proc --pred model-core16-500-3-max150-direct-useScores/new_data.cbond_detailed_2400000 --bonds_as_doubles true
+    python ../scripts/eval_by_smiles.py --gold ../data/custom_filtered.rsmi.proc --pred model-core16-500-3-max150-direct-useScores/new_data.cbond_detailed_2400000 --bonds_as_doubles true
 
 Go to website directory and start the Django app:
 
