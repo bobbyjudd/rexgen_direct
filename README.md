@@ -36,7 +36,23 @@ Create cbond_detailed file
 
     cd ../core_wln_global
 
-    python nntest_direct.py --test ../data/custom_filtered.rsmi.proc --hidden 300 --depth 3 --model model-300-3-direct --checkpoint ckpt-140000 --verbose 1 --detailed 1 > model-300-3-direct/new_data.cbond_detailed
+    python nntest_direct.py --test ../data/custom_filtered.rsmi.proc --hidden 300 --depth 3 --model model-300-3-direct --checkpoint ckpt-140000 
+    --verbose 1 --detailed 1 > model-300-3-direct/new_data.cbond_detailed
+
+Sample Output:
+
+    After seeing 200, acc@12: 0.725, acc@16: 0.745, acc@20: 0.755, acc@40: 0.810, acc@80: 0.850
+    After seeing 300, acc@12: 0.727, acc@16: 0.743, acc@20: 0.760, acc@40: 0.817, acc@80: 0.860
+    After seeing 400, acc@12: 0.730, acc@16: 0.750, acc@20: 0.765, acc@40: 0.812, acc@80: 0.855
+    After seeing 500, acc@12: 0.736, acc@16: 0.752, acc@20: 0.764, acc@40: 0.810, acc@80: 0.846
+    After seeing 600, acc@12: 0.735, acc@16: 0.752, acc@20: 0.765, acc@40: 0.817, acc@80: 0.853
+    After seeing 700, acc@12: 0.743, acc@16: 0.759, acc@20: 0.770, acc@40: 0.819, acc@80: 0.851
+    After seeing 800, acc@12: 0.744, acc@16: 0.760, acc@20: 0.774, acc@40: 0.824, acc@80: 0.855
+    After seeing 900, acc@12: 0.746, acc@16: 0.761, acc@20: 0.773, acc@40: 0.821, acc@80: 0.852
+    After seeing 1000, acc@12: 0.744, acc@16: 0.763, acc@20: 0.775, acc@40: 0.826, acc@80: 0.857
+    After seeing 1100, acc@12: 0.750, acc@16: 0.768, acc@20: 0.782, acc@40: 0.831, acc@80: 0.862
+    After seeing 1200, acc@12: 0.748, acc@16: 0.766, acc@20: 0.780, acc@40: 0.827, acc@80: 0.858
+    ...
 
 Get bond predictions - includes reactivity scores in output
 
