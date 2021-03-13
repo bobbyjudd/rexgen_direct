@@ -11,7 +11,8 @@ import os
 rexgen_direct_root = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'rexgen_direct')
 
 cols = ['reactants', 'products', 'product_smiles', 'product_smiles_sani', 'rank (10 if not found)'] + ['pred{}'.format(i) for i in range(10)] + ['rank (10 if not found) sani'] + ['pred{} sani'.format(i+1) for i in range(10)]
-df_rankpred = pd.read_csv(os.path.join(rexgen_direct_root, 'rank_diff_wln/model-core16-500-3-max150-direct-useScores/test.cbond_detailed_2400000.eval_by_smiles'), sep="\t",header=None, names=cols) 
+df_rank = pd.read_csv(os.path.join(rexgen_direct_root, 'rank_diff_wln/model-core16-500-3-max150-direct-useScores/test.cbond_detailed_2400000.eval_by_smiles'), sep="\t",header=None, names=cols) 
+df_rank_custom = pd.read_csv(os.path.join(rexgen_direct_root, 'rank_diff_wln/model-core16-500-3-max150-direct-useScores/new_data.cbond_detailed_2400000.eval_by_smiles'), sep="\t",header=None, names=cols) 
 
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
@@ -313,7 +314,7 @@ guessed_prod= 'CC'
 reaction = analyze_reaction(reactants, product=product, guessed_prod=guessed_prod, clearmap=True, showmap=False, atts=[3,])
 
 
-def do_index(index, max_bond_preds=10, df_rankpred=df_rankpred, showdets=True, **kwargs):
+def do_index(index, max_bond_preds=10, df_rankpred=df_rank, showdets=True, **kwargs):
     entry = df_rankpred.loc[df_rankpred.index == index]
     print('THIS IS TEST EXAMPLE {} (1-indexed)'.format(entry.index.item()+1))
     print(list(entry['rank (10 if not found)'])[0])
