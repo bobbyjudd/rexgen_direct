@@ -107,11 +107,15 @@ def read_data(coord):
             reaction, cand_bonds = data[it]
             r = reaction.split('>')[0]
             ncore = core_size
-            while True:
-                src_tuple,conf = smiles2graph(r, None, cand_bonds, None, core_size=ncore, cutoff=MAX_NCAND, testing=True)
-                if len(conf) <= MAX_NCAND:
-                    break
-                ncore -= 1
+            try:
+                while True:
+                    src_tuple,conf = smiles2graph(r, None, cand_bonds, None, core_size=ncore, cutoff=MAX_NCAND, testing=True)
+                    if len(conf) <= MAX_NCAND:
+                        break
+                    ncore -= 1
+            except:
+                sys.stderr.write('[ERROR]: {}\n'.format(data[it]))
+                continue
             queue.put((r,conf))
             feed_map = {x:y for x,y in zip(_src_holder, src_tuple)}
             session.run(enqueue, feed_dict=feed_map)
