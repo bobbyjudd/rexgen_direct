@@ -1,14 +1,14 @@
 from __future__ import print_function
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
-from .nn import linearND, linear
-from .mol_graph import atom_fdim as adim, bond_fdim as bdim, max_nb, smiles2graph_list as _s2g
-from .models import *
-from .ioutils_direct import *
+from nn import linearND, linear
+from mol_graph import atom_fdim as adim, bond_fdim as bdim, max_nb, smiles2graph_list as _s2g
+from models import *
+from ioutils_direct import *
 import math, sys, random
 from collections import Counter
 from optparse import OptionParser
-from functools import partial
+from functools import partial, reduce
 import threading
 from multiprocessing import Queue
 
@@ -38,9 +38,9 @@ hidden_size = int(opts.hidden_size)
 depth = int(opts.depth)
 max_norm = float(opts.max_norm)
 if opts.rich_feat:
-    from .mol_graph_rich import atom_fdim as adim, bond_fdim as bdim, max_nb, smiles2graph_list as _s2g
+    from mol_graph_rich import atom_fdim as adim, bond_fdim as bdim, max_nb, smiles2graph_list as _s2g
 else:
-    from .mol_graph import atom_fdim as adim, bond_fdim as bdim, max_nb, smiles2graph_list as _s2g
+    from mol_graph import atom_fdim as adim, bond_fdim as bdim, max_nb, smiles2graph_list as _s2g
 
 smiles2graph_batch = partial(_s2g, idxfunc=lambda x:x.GetIntProp('molAtomMapNumber') - 1)
 
@@ -112,7 +112,7 @@ _, topk = tf.nn.top_k(score - bmask, k=NK)
 flat_score = tf.reshape(score, [-1])
 
 # Train with categorical crossentropy
-loss = tf.nn.sigmoid_cross_entropy_with_logits(flat_score, tf.to_float(flat_label))
+loss = tf.nn.sigmoid_cross_entropy_with_logits(logits=flat_score, labels=tf.to_float(flat_label))
 loss = tf.reduce_sum(loss * bond_mask)
 
 # Use Adam with clipped gradients
@@ -215,7 +215,7 @@ try:
             print("Acc@10: %.4f, Acc@20: %.4f, Param Norm: %.2f, Grad Norm: %.2f" % (sum_acc / (50 * batch_size), sum_err / (50 * batch_size), pnorm, sum_gnorm / 50) )
             sys.stdout.flush()
             sum_acc, sum_err, sum_gnorm = 0.0, 0.0, 0.0
-        if it % 10000 == 0:
+        if it % 1000 == 0:
             lr *= 0.9
             saver.save(session, opts.save_path + "/model.ckpt", global_step=it)
             print("Model Saved!")
