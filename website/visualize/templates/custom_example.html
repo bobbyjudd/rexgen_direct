@@ -15,6 +15,7 @@ function redraw() {
   $.ajax({
       url: '/visualize/customajax',
       data: {
+          dataset: $({% %})
           index: $("#index").val(),
           showmap: $("#showmap").is(":checked"),
           highlight: $("#highlight").val(),

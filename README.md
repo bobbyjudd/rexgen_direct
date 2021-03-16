@@ -1,3 +1,13 @@
+# Python 3 Quickstart
+Go to website directory and start the Django app:
+
+    cd ../website
+    python manage.py runserver
+
+Go to ```http://localhost:8000/visualize/test``` in a browser to use the interactive visualization tool on the test dataset predictions
+Go to ```http://localhost:8000/visualize/validation``` in a browser to use the interactive visualization tool on the validation dataset predictions
+
+
 # rexgen_direct
 Template-free prediction of organic reaction outcomes using graph convolutional neural networks
 
@@ -36,7 +46,7 @@ Create cbond_detailed file
 
     cd ../core_wln_global
 
-    python nntest_direct.py --test ../data/custom_filtered.rsmi.proc --hidden 300 --depth 3 --model model-300-3-direct --checkpoint ckpt-140000 
+    python nntest_direct.py --test ../data/custom_filtered.rsmi.proc --hidden 300 --depth 3 --model model-300-3-direct --checkpoint ckpt-140000 \
     --verbose 1 --detailed 1 > model-300-3-direct/new_data.cbond_detailed
 
 Sample Output:
@@ -68,4 +78,5 @@ Go to website directory and start the Django app:
     python manage.py runserver
 
 
-Go to ```http://localhost:8000/visualize/custom``` in a browser to use the interactive visualization tool on the custom dataset predictions
+Go to ```http://localhost:8000/visualize/test``` in a browser to use the interactive visualization tool on the test dataset predictions
+Go to ```http://localhost:8000/visualize/validation``` in a browser to use the interactive visualization tool on the validation dataset predictions

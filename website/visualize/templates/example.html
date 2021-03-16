@@ -15,6 +15,7 @@ function redraw() {
   $.ajax({
       url: '/visualize/ajax',
       data: {
+          dataset: "{{ dataset }}",
           index: $("#index").val(),
           showmap: $("#showmap").is(":checked"),
           highlight: $("#highlight").val(),
@@ -24,6 +25,8 @@ function redraw() {
         console.log(data);
         $('#image').html('<img id="img" src="data:image/png;base64,' + data.img_str + '" width="' + zoomsize + '%" />');
         $('#index_display').html('Results for index ' + data.index);
+        $('#react').html(data.reactants);
+        $('#prod').html(data.products);
       }
   });
 };
@@ -41,6 +44,17 @@ $(document).ready(function() {
 <i>If only one product is drawn, then the model correctly predicted the outcome!</i><br><br>
 <i>If two products are drawn, then the <u>red</u> product is the model prediction. If 'No' is displayed, then the combination of bond changes predicted by the model did not yield a valid SMILES string different from the reactants.</i><br><br>
 <i>Instructions: (1) Choose any test ID to look at; (2) Look at the reaction with atom mapping <b>on</b>; (3) Select which atom you are interested in visualizing the global attention scores for (i.e., which atoms most significantly influence the perceived reactivity at that atom) and enter its number label in the `Highlight atom' box; (4) Turn atom mapping display to <b>off</b> for a more attractive drawing; (5) Resize the image drawing as needed.</i>
+
+<table>
+  <tr>
+    <th>Reactants</th>
+    <th>Products</th>
+  </tr>
+  <tr>
+    <td id="react"></td>
+    <td id ="prod"></td>
+  </tr>
+</table> 
 
 <h3>Inputs:</h3>
 

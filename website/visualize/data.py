@@ -1,3 +1,5 @@
+
+
 from rdkit import Chem
 from rdkit.Chem.Draw import IPythonConsole, ReactionToImage, MolToImage, MolsToGridImage
 import rdkit.Chem.AllChem as AllChem
@@ -12,7 +14,8 @@ rexgen_direct_root = os.path.join(os.path.dirname(os.path.dirname(os.path.dirnam
 
 cols = ['reactants', 'products', 'product_smiles', 'product_smiles_sani', 'rank (10 if not found)'] + ['pred{}'.format(i) for i in range(10)] + ['rank (10 if not found) sani'] + ['pred{} sani'.format(i+1) for i in range(10)]
 df_rank = pd.read_csv(os.path.join(rexgen_direct_root, 'rank_diff_wln/model-core16-500-3-max150-direct-useScores/test.cbond_detailed_2400000.eval_by_smiles'), sep="\t",header=None, names=cols) 
-df_rank_custom = pd.read_csv(os.path.join(rexgen_direct_root, 'rank_diff_wln/model-core16-500-3-max150-direct-useScores/new_data.cbond_detailed_2400000.eval_by_smiles'), sep="\t",header=None, names=cols) 
+df_rank_validation = pd.read_csv(os.path.join(rexgen_direct_root, 'rank_diff_wln/custom-model-core16-500-3-max150-direct-useScores/validation_set.cbond_detailed_19000.eval_by_smiles'), sep="\t",header=None, names=cols) 
+df_rank_test = pd.read_csv(os.path.join(rexgen_direct_root, 'rank_diff_wln/custom-model-core16-500-3-max150-direct-useScores/test_set.cbond_detailed_19000.eval_by_smiles'), sep="\t",header=None, names=cols) 
 
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
@@ -345,4 +348,4 @@ def do_index(index, max_bond_preds=10, df_rankpred=df_rank, showdets=True, **kwa
     if save:
         img.save(save + '.png', format='png', quality=100)
         
-    return img
+    return entry,img
