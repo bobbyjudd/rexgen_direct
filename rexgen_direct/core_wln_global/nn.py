@@ -3,7 +3,7 @@ import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
 import math
 
-def linear(input_, output_size, scope, reuse=False, init_bias=0.0):
+def linear(input_, output_size, scope, reuse=False, init_bias=0.0, training=False, dropout_rate=0.2):
     shape = input_.get_shape().as_list()
     stddev = min(1.0 / math.sqrt(shape[-1]), 0.1)
     with tf.variable_scope(scope, reuse=reuse):
@@ -12,9 +12,13 @@ def linear(input_, output_size, scope, reuse=False, init_bias=0.0):
         return tf.matmul(input_, W)
     with tf.variable_scope(scope, reuse=reuse):
         b = tf.get_variable("bias", [output_size], initializer=tf.constant_initializer(init_bias))
+    
+    if training:
+        return tf.nn.dropout(tf.matmul(input_, W) + b, rate=dropout_rate)
+    
     return tf.matmul(input_, W) + b
 
-def linearND(input_, output_size, scope, reuse=False, init_bias=0.0):
+def linearND(input_, output_size, scope, reuse=False, init_bias=0.0, training=False, dropout_rate=0.2):
     shape = input_.get_shape().as_list()
     ndim = len(shape)
     stddev = min(1.0 / math.sqrt(shape[-1]), 0.1)
@@ -31,4 +35,8 @@ def linearND(input_, output_size, scope, reuse=False, init_bias=0.0):
         res = tf.matmul(exp_input, W) + b
     res = tf.reshape(res, target_shape)
     res.set_shape(shape[:-1] + [output_size])
+
+    if training:
+        return tf.nn.dropout(res, rate=dropout_rate)
+    
     return res

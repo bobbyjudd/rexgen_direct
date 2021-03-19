@@ -86,7 +86,7 @@ atom_hiddens2 = tf.reshape(atom_hiddens, [batch_size, -1, 1, hidden_size])
 atom_pair = atom_hiddens1 + atom_hiddens2
 
 # Calculate attention scores for each pair o atoms
-att_hidden = tf.nn.relu(linearND(atom_pair, hidden_size, scope="att_atom_feature", init_bias=None) + linearND(binary, hidden_size, scope="att_bin_feature"))
+att_hidden = tf.nn.relu(linearND(atom_pair, hidden_size, scope="att_atom_feature", init_bias=None, training=True) + linearND(binary, hidden_size, scope="att_bin_feature", training=True))
 att_score = linearND(att_hidden, 1, scope="att_scores")
 att_score = tf.nn.sigmoid(att_score)
 
@@ -100,7 +100,7 @@ att_context2 = tf.reshape(att_context, [batch_size, -1, 1, hidden_size])
 att_pair = att_context1 + att_context2
 
 # Calculate likelihood of each pair of atoms to form a particular bond order
-pair_hidden = linearND(atom_pair, hidden_size, scope="atom_feature", init_bias=None) + linearND(binary, hidden_size, scope="bin_feature", init_bias=None) + linearND(att_pair, hidden_size, scope="ctx_feature")
+pair_hidden = linearND(atom_pair, hidden_size, scope="atom_feature", init_bias=None, training=True) + linearND(binary, hidden_size, scope="bin_feature", init_bias=None, training=True) + linearND(att_pair, hidden_size, scope="ctx_feature", training=True)
 pair_hidden = tf.nn.relu(pair_hidden)
 pair_hidden = tf.reshape(pair_hidden, [batch_size, -1, hidden_size])
 score = linearND(pair_hidden, 5, scope="scores")
